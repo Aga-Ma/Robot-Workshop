@@ -1,0 +1,317 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Test Automation</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/league.css">
+        <link rel="stylesheet" href="css/custom/presentation_details.css">
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+            		<h3>Robot Framework a testowanie aplikacji webowych</h3>
+        		</section>
+                <section id="about" class="present">
+                    <h1>Kim jestem?</h1>
+                    Agnieszka Malek / https://www.linkedin.com/in/agnieszka-j-malek/
+                    <ul>
+                        <li class="fragment"> Test Automation Squad Group Leader</li>
+                        <li class="fragment"> Magister Chemii </li>
+                        <li class="fragment"> Mama dwójki dzieci </li>
+                        <li class="fragment"> Entuzjastka myślenia wizualnego</li>
+                    </ul>
+                </section>
+                <section id="agenda">
+                    <h2>Agenda</h2>
+                    <ul style="font-size: 70%">
+                        <li>Weryfikacja instalacji - step by step</li>
+                        <li>Troszkę teorii</li>
+                         <ul>Czym jest testowanie?</ul>
+                		 <ul>Dlaczego automatyzujemy testy?</ul>
+                         <ul>2xD - Modele tworzenia testów automatycznych</ul>
+                        <li>Więcej praktyki</li>
+                         <ul>Do rzeczy! Czym jest Robot Framework?</ul>
+                         <ul>Jak wygląda architektura testów robotowych?</ul>
+                         <ul>No to czas poznać Selenium - DEMO</ul>
+                         <ul>To na co wszysy czekali - ćwiczenia</ul>
+					 </ul>
+                </section>
+				<section id="testing">
+                    <h2>Co znaczy testowanie?</h2>
+                    <p class="fragment">
+                        <br>
+                        <small>
+                            Testowanie jest procesem ewaluacji systemu lub jego komponentu/komponentów w celu
+                            weryfikacji czy spełnia on określone wymagania czy nie.
+                        </small>
+                    </p>
+				</section>
+				<section id="automated testing">
+					<section>
+                        <h3>Dlaczego automatyzujemy testy?</h3>
+                        <ul>
+                             <li>Automatyczne testowanie oszczędza pieniądze i czas</li>
+                             <li>Zwiększa pokrycie testami</li>
+                             <li>Znacznie poprawia dokładność</li>
+                             <li>Robi to czego nie można osiągnąć tylko testowaniem manualnym</li>
+                             <li>Pomaga zarówno deweloperom i testerom</li>
+					    </ul>
+					</section>
+                    <section >
+                        <h3>Pobawmy się w matematykę!</h3>
+                        <div id="left">
+                            <p class="fragment" style="margin: 0;"><small><b><br>14,000</b> unit testów</small></p>
+                            <p class="fragment" style="margin: 0;"><small><b>19,000</b> testów funkcjonalnych<br>sum = <b>33,000</b> testów</small></p>
+                            <p class="fragment" style="margin: 0;"><small><br>jeśli <u>jeden tester</u> zarabia $25/h</small></p>
+                            <p class="fragment" style="margin: 0;"><small>i jest w stanie przeprowadzić <b>50</b> testów/h<br></small></p>
+                            <p class="fragment" style="font-size:70%; float: left;"><br>
+                                $$\frac{33 000}{50} * 25 = 660 * 25 $$
+                            </p>
+                            <p><br></p>
+                            <p class="fragment" style="color:black">
+                                <br> $$= 16 500\$$$ </p>
+                        </div>
+                        <div id="right">
+                            <p class="fragment" style="margin: 0;"><small><br>jeśli <u>tester automatyzujący</u> zarabia $55/h i implementuje <b>5</b> testów/h</small></p>
+                            <p></p>
+                            <p class="fragment" style="margin: 0;"><small><br><b>33,000</b> automatycznych testów <b>6600</b> godzin</b></small></p>
+                            <p class="fragment"><small>to jest <b>363000$</b><br>...ale</small></p>
+                            <p class="fragment" style="font-size:70%; float: left; ">
+                                $$\frac{363 000}{16 500} = 22 egzekucje$$
+                            </p>
+                            <p class="fragment" style="color:black"> $$ 22 egzekucje $$</p>
+                        </div>
+                        <h4 class="fragment" style="text-align=center;float: left;margin-left:23%;text-decoration: underline;color:black">to znaczy że automatyzacja płaci sama za siebie</h4>
+                    </section>
+					<section style="text-align: left; float=left;">
+						<h3>Analiza logów - przykład z życia</h3>
+                        <p class="fragment" style="color:black"><small><br>1780 skompresowanych plików w snapshotcie</small></p>
+                        <p class="fragment" style="color:black"><small> 461 definicji plików zapisanych w specyfikacji w pliku csv </small></p>
+                        <p class="fragment" style="color:black"><small>8  różnych komponentów do sprawdzenia </small></p>
+                        <p class="fragment" style="color:black"><small>...i spróbuj się nie pomylić</small></p>
+                        <p class="fragment" style="color:black">Jak długo może to potrwać?</p>
+                        <p class="fragment" style="color:black"><small>Dla testu automatycznego: 1 sekunda 615 milisekund - 3 sekundy 562 milisekundy</small></p>
+                        <p class="fragment" style="color:black"> Wyzwanie: Spróbujcie zrobić to szybciej manualnie</p>
+					</section>
+                    <section>
+                        <img src="images/lets_automate_all_the_things.jpg">
+                    </section>
+				</section>
+                <section id="models">
+                    <section>
+                        2xD - Modele tworzenia testów automatycznych
+                        <p>
+                            <br>
+                            <a href="#tdd">Test Driven Development</a>
+                            <a href="#kdd">Keyword Driven Development</a>
+                            <a href="#add">Acceptance Test Driven Development</a>
+                            <a href="#bdd">Behavior Driven Development</a>
+                        </p>
+                    </section>
+                    <section id="tdd">
+                        <h3>Test Driven Development</h3>
+                        <p><small>
+                            Kiedy tworzysz jakąś funkcję, najpierw zdefiniuj przykłady oczekiwanych rezultatów dla wybranych
+                            danych wejściowych. Gdy już stworzysz funkcję, sprawdź ją pod kątem oczekiwanych rezultatów.
+                        </small></p>
+                    </section>
+                    <section id="kdd" style="color: black">
+                        <h3>Keyword Driven Development</h3>
+                        <p><small><br>
+                            W testowaniu sterowanym zwrotami kluczowymi, każde słowo klucz (keyword) odpowiada
+                            konkretnej akcji takiej jak kliknięcie myszką, wybranie elementu z rozwijanego menu,
+                            otwarcie lub zamknięcie okna itp. W KDD test jest sekwencją operacji zapisanych za pomocą
+                            słów kluczy, symulujących akcje użytkownika wykonywane na testowanej aplikacji.
+                        </small></p>
+                    </section>
+                    <section id="add" style="color: black">
+                        <h3 style="color: black">Acceptance Test Driven Development</h3>
+                        <p><small><br>
+                            Testy akceptacyjne służą uzyskaniu potwierdzenia, że opragramowanie jest odpowiedniej jakości.
+                            Analogicznie do TDD testy akceptacyjne powinny być zdefiniowane przed utworzeniem danej
+                            funkcjonalności. Kryteria akceptacyjne natomiast sa kryteriami, które dany system lub
+                            komponent musi spełnić, żeby został zaakceptowany przez użytkownika lub klienta.
+                        </small></p>
+                    </section>
+                    <section id="bdd">
+                        <h3>Behavior Driven Development</h3>
+                        <p>
+                            <small>
+                                <br>
+                                Konwencją wykorzystywaną w BDD jest tworzenie struktury testów za pomoca języka naturalnego.
+                                Idea ta tak naprawdę służy usprawnieniu współpracy między klientami, testerami i developerami i
+                                sprawia, że testy stają się zrozumiałe i czytelne dla wszystkich.
+                            </small>
+                        </p>
+                    </section>
+                </section>
+                <section id="robot">
+                    <h3>Do rzeczy! Czym jest Robot Framework?</h3>
+                        <section>
+                            <img src="images/Robot-framework-logo.png">
+                        </section>
+                        <section id="history">
+                            <h3>Zarys historyczny</h3>
+                            <ul>
+                                <li class="fragment">Robot Framework został stworzony w Nokii (Nokia Siemens Networks)</li>
+                                <li class="fragment">W roku 2008 stał się projektem open source (release 2)</li>
+                                <li class="fragment">Duża społeczność na <a href="https://github.com/robotframework">GitHubie</a></li>
+                            </ul>
+                        </section>
+                </section>
+                <section id="architecture">
+                    <h3>Jak wygląda architektura testów robotowych?</h3>
+                    <section>
+                        <h4>Struktura pliku testowego</h4>
+                        <img src="images/test_file_structure.PNG" align="left">
+                        <ul style="font-size:70%">
+                            <li>Plik jest podzielony na sekcje</li>
+                            <li>Składnia</li>
+                                <ul>Space separated format - oddzielanie spacjami</ul>
+                                <ul>Wcięcia mają znaczenie (jak w Pythonie)</ul>
+                                <ul>Puste linie są ignorowane</ul>
+                                <ul>Ilość spacji jest bardzo ważna</ul>
+                                <ul>Komentarze oznaczamy - #</ul>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>Ustawienia (*** Settings ***)</h4>
+                        <img src="images/settings.PNG">
+                    </section>
+                    <section>
+                        <h4>Zmienne (*** Variables ***)</h4>
+                        <img src="images/variables.PNG">
+                    </section>
+                    <section>
+                        <h4>Testy (*** Test Cases ***)</h4>
+                        <img src="images/test_cases.PNG">
+                    </section>
+                    <section>
+                        <h4>Słowa klucze (*** Keywords ***)</h4>
+                        <img src="images/keywords.PNG">
+                    </section>
+                    <section>
+                        <h4>Resources</h4>
+                        <img src="images/test_resource.PNG">
+                        <h3>Czego tu brakuje???</h3>
+                        <p class="fragment" style="color:red"> *** Test Cases *** </p>
+                    </section>
+                </section>
+                <section id="run">
+                    <h3>Odpalanie testów - cmd</h3>
+                    <section style="font-size:70%" align="left">
+                        <p>Robot Framework posiada bardzo dużo opcji, które pozwalają nam na kontrolę i dostosowanie
+                            egzekucji testów</p>
+                        <p>Przykłady</p>
+                                <li>robot -L TRACE test.robot</li>
+                                <li>robot -b debug.log test.robot</li>
+                                <li>robot --dryrun test.robot</li>
+                                <li>robot --outputdir /path/to/logs test.robot</li>
+                        <p>Oczywiście możemy stosować kombinacje wielu argumentów w jednej komendzie</p>
+                        <p>Chcesz wiedzieć więcej? Zajrzy tu: <a href="https://twiki.cern.ch/twiki/bin/view/EMI/RobotFrameworkAdvancedGuide#Command_Line_Options">Robot Framework Advanced Guide - Command Line Options</a></p>
+                    </section>
+                </section>
+                <section id="selenium">
+                    <h3>No to czas poznać Selenium - DEMO</h3>
+                </section>
+                <section id="practice">
+                    <h3>To na co wszyscy czekali - ćwiczenia</h3>
+                    <section>
+                        <h2>Ćwiczenie 1 - matematyka</h2>
+                        <ul >
+                            <li>Dodaj do siebie dwie cyfry</li>
+                            <li>Zweryfikuj rezultat</li>
+                        </ul>
+                    </section>
+                    <section  style="color:black">
+                        <h2>Ćwiczenie 2 - template</h2>
+                        <ul >
+                            <li>A przygotujesz template dla pierwszego ćwiczenia? :)</li>
+                            <li>Pamiętaj, żeby podać różne dane wejściowe</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Ćwiczenie 3 - Selenium wikipedia</h2>
+                        <ul style="color:black">
+                            <li>Otwórz przeglądarkę na stronie http://en.wikipedia.org/</li>
+                            <li>Znajdź pole wyszukiwania</li>
+                            <li>Wprowadź Robot_Framework w pole wyszukiwania</li>
+                            <li>Kliknij przycisk wyszukiwania</li>
+                            <li>Zweryfikuj czy wyświetlona strona wyświetla tekst "Robot Framework is a generic test automation framework"</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Ćwiczenie 4 - Gherkin style</h2>
+                        <p style="float:left">Zrobiłaś ćwiczenie drugie?</p></br>
+                        <p><b>Świetnie</b></p>
+                        <p style="float:left">To teraz zrób to samo wykorzystując składnię BDD</p>
+                    </section>
+                    <section>
+                        <h2>Ćwiczenie 5 - Template</h2>
+                        <ul >
+                            <li>No to teraz fajnie by było poćwiczyć wykorzystanie templatu</li>
+                            <li>Wymyśl różne hasła do wyszukiwania i sprawdź czy wikipedia znajdzie to czego oczekujesz</li>
+                            <li>Możesz też sprawdzić przypadki nieprawidłowe :)</li>
+                        </ul>
+                    </section>
+                </section>
+                <section id="links">
+                    <h3>Kilka przydatnych linków</h3>
+                    <ul style="font-size: 70%">
+                        <li><a href="https://www.slideshare.net/pekkaklarck/robot-framework-dos-and-donts">Robot Framework nakazy i zakazy</a></li>
+                        <li><a href="https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst">Jak pisać dobre Test Case'y</a></li>
+                        <li><a href="https://github.com/robotframework/QuickStartGuide/blob/master/QuickStart.rst">Szybkie wprowadzenie do Robota</a></li>
+                        <li><a href="http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id208">Robot Framework przewodnik użytkownika</a></li>
+                    </ul>
+                </section>
+                <section>
+                    <h1>Dziękuję <3</h1>
+                </section>
+			</div>
+		</div>
+		<div class="presentation-details">
+			<p>
+				Robot Framework a testowanie aplikacji webowych • Girls4Girls 14.09.2019 • Agnieszka Malek
+			</p>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+			    rollingLinks: true,
+				math: {
+                    mathjax: 'https://cdn.mathjax.org/mathjax/latest/MathJax.js',
+                    config: 'TeX-AMS_HTML-full'
+                },
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); }},
+					{ src: 'plugin/math/math.js', async: true }
+				]
+			});
+
+		</script>
+	</body>
+</html>
